@@ -25,26 +25,17 @@ In production mode asset/resource style
 - import fonts
 
 ## To add 'tree shaking' option:
+ - to package.json
+```javascript
+  "sideEffects": false,
+```
  - to webpack.config.js
 ```javascript
 module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: babel-loader,       
-          side-effects: false,
-          /* This configuration aids babel-preset-env to disable transpiling of import or export modules to commonJS */
-          options: {
-            presets: [
-              [ 'es2015', { modules: false }]
-            ]
-          }
-        }
-      }
-    ]
+  optimization: {
+    sideEffects: false,
   },
+},
 ```
 - Use ES2015 module syntax (i.e. import and export).
 ```javascript
