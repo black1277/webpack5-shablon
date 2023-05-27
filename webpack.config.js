@@ -15,13 +15,7 @@ const conf = {
     filename: '[name].bundle.js',
     assetModuleFilename: '[name][ext]',
   },
-  devServer: {
-    historyApiFallback: true,
-    open: true,
-    compress: true,
-    hot: true,
-    port: 8080,
-  },
+
   plugins: [
     new webpack.ProgressPlugin(),
     new MyPlugin({}),
