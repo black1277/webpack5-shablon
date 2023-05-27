@@ -1,4 +1,6 @@
-exports.module = {
-  spin: 'up',
-  zaryad: -1
+export const spin = '!!!'
+export const zaryad = -1
+
+export function getPrimes(max) {
+  console.log('from function getPrimes')
 }

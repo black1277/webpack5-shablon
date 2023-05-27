@@ -1,4 +1,20 @@
 ### :zap: `Webpack 5 Boilerplate for JS apps.`
+## Version 1.0.3
+- node-sass was removed
+- added sass
+- all dependencies were updated
+- added @babel/preset-env
+- automatic copying of the favicon to the destination folder was added
+- a sample of a simple plugin (MyPlugin) has been added (adds to the HTML comment before of the tag 'body')
+- added correct handling of img tag in base html template file
+- 'templateParameters' were removed from the HtmlWebpackPlugin
+
+## Version 1.0.2
+- small fix for eslint
+- fix package.json (browserslist)
+- added generator for images filename
+- added favicon
+
 ## Version 1.0.1
 
 In development mode asset/inline style
@@ -19,26 +35,10 @@ In production mode asset/resource style
 - 2 config for development and production mode
   - npm run start - for development
   - npm run build - for production
-  
+
 - sass, css, postcss
 - import img and svg files
 - import fonts
 
 ## To add 'tree shaking' option:
- - to package.json
-```javascript
-  "sideEffects": false,
-```
- - to webpack.config.js
-```javascript
-module: {
-  optimization: {
-    sideEffects: false,
-  },
-},
-```
-- Use ES2015 module syntax (i.e. import and export).
-```javascript
-// ES2015(ES6) Sample of importing a specific dependency with tree shaking
-import isArray from 'lodash/isArray'
-```
+read [documentation](https://webpack.js.org/guides/tree-shaking/#root)

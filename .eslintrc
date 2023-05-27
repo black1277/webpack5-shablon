@@ -7,10 +7,21 @@
   },
   "rules": {
     "semi": "off",
+    "indent": "warn",
+    "object-curly-spacing": "warn",
+    "spaced-comment": "warn",
+    "prefer-const": "warn",
+    "no-multi-spaces": "warn",
     "arrow-parens": "off",
     "comma-dangle": "off",
     "require-jsdoc": "off",
-    "operator-linebreak": "off"
+    "operator-linebreak": "off",
+    "camelcase": "off",
+    "one-var": [2, {
+      "var": "always", // Exactly one var declaration per function
+      "let": "always", // Exactly one let declaration per block
+      "const": "never" // Exactly one declarator per const declaration per block
+    }]
   },
   "extends": ["eslint:recommended", "google"]
 }

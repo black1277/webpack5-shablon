@@ -1,20 +1,20 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MyPlugin = require('./plugin')
+const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-let conf = {
+const conf = {
   entry: {
     main: path.resolve(__dirname, './src/js/index.js'),
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',
-    assetModuleFilename: 'images/[hash][ext][query]'
+    assetModuleFilename: '[name][ext]',
   },
-//  devtool: 'source-map',
   devServer: {
     historyApiFallback: true,
     open: true,
@@ -24,41 +24,64 @@ let conf = {
   },
   plugins: [
     new webpack.ProgressPlugin(),
+    new MyPlugin({}),
     new HtmlWebpackPlugin({
-      templateParameters: {
-        title: 'webpack 5 Boilerplate',
-      },
       template: path.resolve(__dirname, './src/index.html'), // шаблон
       filename: 'index.html', // название выходного файла
+      favicon: path.resolve(__dirname, './src/assets/img/favicon.ico'),
     }),
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: false,
+            },
+          },
+        ],
+      },
       // JavaScript
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', {targets: 'defaults'}]],
+          },
+        },
       },
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'images/[hash][ext][query]',
+        },
       },
     ],
-  }
+  },
 }
 
 module.exports = (env, options)=>{
   const isProd = options.mode === 'production'
   let rulesCSS, ruleFonts, ruleSVG
-  if(isProd) {
+  if (isProd) {
     conf.devtool = false
     conf.target = 'browserslist'
     rulesCSS = {
       test: /\.(scss|css)$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader',
+        'postcss-loader',
+        'sass-loader'
+      ],
     }
     ruleFonts = {
       test: /\.(woff(2)?|eot|ttf|otf)$/,
@@ -76,15 +99,15 @@ module.exports = (env, options)=>{
     }
     conf.module.rules.push(ruleSVG)
     conf.plugins.push(new MiniCssExtractPlugin({
-      filename: "styles/[name].[contenthash].css",
-      chunkFilename: "styles/[id].[contenthash].css",
+      filename: 'styles/[name].[contenthash].css',
+      chunkFilename: 'styles/[id].[contenthash].css',
     }))
   } else {
     conf.devtool = 'eval-cheap-module-source-map'
     conf.target = 'web'
     rulesCSS = {
       test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+      use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
     }
     ruleFonts = {
       test: /\.(woff(2)?|eot|ttf|otf|svg|)$/,
@@ -98,4 +121,3 @@ module.exports = (env, options)=>{
 
   return conf
 }
-
