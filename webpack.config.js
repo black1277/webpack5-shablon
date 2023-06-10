@@ -14,6 +14,8 @@ const conf = {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',
     assetModuleFilename: '[name][ext]',
+    clean: true,
+    publicPath: '/',
   },
 
   plugins: [
