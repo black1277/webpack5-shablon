@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 class MyPlugin {
   apply(compiler) {
     compiler.hooks.compilation.tap('MyPlugin', (compilation) => {
-      console.log('The compiler from MyPlugin is starting a new compilation...')
+      console.log('MyPlugin is starting a new compilation...')
       // Static Plugin interface |compilation |HOOK NAME | register listener
       HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(
           'MyPlugin', // <-- Set a meaningful name here for stacktraces
